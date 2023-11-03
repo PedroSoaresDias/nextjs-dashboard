@@ -14,7 +14,7 @@ const InvoiceSchema = z.object({
 });
 
 const CreateInvoices = InvoiceSchema.omit({ id: true, date: true });
-const UpdateInvoice = InvoiceSchema.omit({ date: true });
+const UpdateInvoice = InvoiceSchema.omit({ id: true, date: true });
 
 export async function createInvoices(formData: FormData) {
     const { customerId, amount, status } = CreateInvoices.parse({
@@ -67,7 +67,6 @@ export async function updateInvoice(id: string, formData: FormData) {
 }
 
 export async function deleteInvoice(id: string) {
-    throw new Error("Falha ao Excluir a Fatura");
     try {
         await sql`DELETE FROM invoices WHERE id = ${id}`;
         revalidatePath('/dashboard/invoices');
